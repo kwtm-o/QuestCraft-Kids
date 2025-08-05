@@ -1,0 +1,408 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>りくの冒険記録 - 今日の授業でやりたいこと</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&display=swap');
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Orbitron', monospace;
+            background: linear-gradient(135deg, #4CAF50 0%, #8BC34A 100%);
+            min-height: 100vh;
+            background-image: 
+                repeating-linear-gradient(0deg, rgba(255,255,255,0.1) 0px, rgba(255,255,255,0.1) 1px, transparent 1px, transparent 16px),
+                repeating-linear-gradient(90deg, rgba(255,255,255,0.1) 0px, rgba(255,255,255,0.1) 1px, transparent 1px, transparent 16px);
+        }
+        
+        .worksheet-container {
+            max-width: 800px;
+            margin: 0 auto;
+            background: #f5f5f5;
+            border: 8px solid #8B4513;
+            border-radius: 0;
+            box-shadow: 
+                0 0 0 4px #654321,
+                0 8px 16px rgba(0,0,0,0.3),
+                inset 0 0 0 2px #A0522D;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .worksheet-container::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 16px;
+            background: repeating-linear-gradient(90deg, #8B4513 0px, #8B4513 16px, #654321 16px, #654321 32px);
+            z-index: 1;
+        }
+        
+        .worksheet-container::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            height: 16px;
+            background: repeating-linear-gradient(90deg, #8B4513 0px, #8B4513 16px, #654321 16px, #654321 32px);
+            z-index: 1;
+        }
+        
+        .header {
+            background: linear-gradient(135deg, #4CAF50, #66BB6A);
+            padding: 31px 25px 15px 25px;
+            text-align: center;
+            position: relative;
+            border-bottom: 4px solid #2E7D32;
+            display: flex;
+            align-items: center;
+        }
+        
+        .emoji {
+            font-size: 32px;
+            filter: drop-shadow(2px 2px 4px rgba(0,0,0,0.3));
+        }
+        
+        .main-title {
+            font-size: 30px;
+            font-weight: 1500;
+                        color: #ffffff;
+
+            text-shadow: 2px 2px 2px #1B5E20;
+            margin: 0px auto;
+            letter-spacing: 10px;
+        }
+        
+        .subtitle {
+            font-size: 16px;
+            color: #E8F5E8;
+            font-weight: 400;
+        }
+        
+        .content {
+            padding: 30px;
+            background: white;
+            position: relative;
+        }
+        
+        .date-section {
+            background: #FFF3E0;
+            border: 3px solid #FF9800;
+            border-radius: 8px;
+            padding: 15px;
+            margin-bottom: 25px;
+            position: relative;
+        }
+        
+        .date-section::before {
+            content: '📅';
+            position: absolute;
+            left: -15px;
+            top: -15px;
+            background: #FF9800;
+            padding: 8px;
+            border-radius: 50%;
+            font-size: 20px;
+        }
+        
+        .date-label {
+            font-size: 18px;
+            font-weight: 700;
+            color: #E65100;
+            margin-bottom: 10px;
+        }
+        
+        .date-input {
+            width: 100%;
+            padding: 12px;
+            font-size: 16px;
+            font-family: 'Orbitron', monospace;
+            border: 2px solid #FFB74D;
+            border-radius: 4px;
+            background: white;
+            outline: none;
+            transition: all 0.3s ease;
+            letter-spacing: 2px;
+        }
+        
+        .date-input:focus {
+            border-color: #FF9800;
+            box-shadow: 0 0 8px rgba(255, 152, 0, 0.3);
+        }
+        
+        .goals-section {
+            background: #E8F5E8;
+            border: 3px solid #4CAF50;
+            border-radius: 8px;
+            padding: 20px;
+            margin-bottom: 25px;
+            position: relative;
+        }
+        
+        .goals-section::before {
+            content: '⭐';
+            position: absolute;
+            left: -15px;
+            top: -15px;
+            background: #4CAF50;
+            padding: 8px;
+            border-radius: 50%;
+            font-size: 20px;
+        }
+        
+        .goals-title {
+            font-size: 22px;
+            font-weight: 700;
+            color: #1B5E20;
+            margin-bottom: 15px;
+            text-align: center;
+        }
+        
+        .goals-textarea {
+            width: 100%;
+            min-height: 250px;
+            padding: 15px;
+            font-size: 16px;
+            font-family: 'Orbitron', monospace;
+            border: 2px solid #81C784;
+            border-radius: 4px;
+            background: white;
+            outline: none;
+            resize: vertical;
+            line-height: 1.6;
+            transition: all 0.3s ease;
+        }
+        
+        .goals-textarea:focus {
+            border-color: #4CAF50;
+            box-shadow: 0 0 8px rgba(76, 175, 80, 0.3);
+        }
+        
+        .name-section {
+            background: #E3F2FD;
+            border: 3px solid #2196F3;
+            border-radius: 8px;
+            padding: 15px;
+            position: relative;
+            text-align: center;
+        }
+        
+        .name-section::before {
+            content: '👤';
+            position: absolute;
+            left: -15px;
+            top: -15px;
+            background: #2196F3;
+            padding: 8px;
+            border-radius: 50%;
+            font-size: 20px;
+        }
+        
+        .name-title {
+            font-size: 20px;
+            font-weight: 700;
+            color: #0D47A1;
+            margin-bottom: 10px;
+        }
+        
+        .name-display {
+            font-size: 24px;
+            font-weight: 900;
+            color: #1565C0;
+            background: white;
+            padding: 10px 20px;
+            border: 2px solid #64B5F6;
+            border-radius: 4px;
+            display: inline-block;
+        }
+        
+        .encouragement {
+            text-align: center;
+            margin-top: 20px;
+            margin-bottom: 16px;
+            padding: 15px;
+            background: linear-gradient(135deg, #def3fe, #ede6d5); /* 明るく淡い水色 */
+            border: 2px solid #4169E1;
+            border-radius: 8px;
+            font-size: 18px;
+            font-weight: 700;
+            color: #1b2fb3;
+            text-shadow: 1px 1px 2px rgba(255,255,255,0.8);
+        }
+        
+        .minecraft-icons {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            font-size: 24px;
+            opacity: 0.7;
+        }
+        
+        .button-container {
+            max-width: 800px;
+            margin: 40px auto;
+            text-align: center;
+        }
+
+        .print-button {
+            top: 20px;
+            background: #4CAF50;
+            color: white;
+            border: none;
+            padding: 12px 20px;
+            border-radius: 8px;
+            font-family: 'Orbitron', monospace;
+            font-weight: 700;
+            cursor: pointer;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+            transition: all 0.3s ease;
+        }
+        
+        .print-button:hover {
+            background: #45a049;
+            transform: translateY(-2px);
+            box-shadow: 0 6px 12px rgba(0,0,0,0.3);
+        }
+        
+        @media print {
+            body {
+                background: white;
+                padding: 0;
+            }
+            
+            .print-button {
+                display: none;
+            }
+            
+            .worksheet-container {
+                box-shadow: none;
+                border: 2px solid #8B4513;
+            }
+        }
+        
+        @media (max-width: 600px) {
+            .main-title {
+                font-size: 25px;
+            }
+
+            .emoji {
+                font-size: 27px;
+            }
+            
+            .goals-title {
+                font-size: 18px;
+            }
+            
+            .content {
+                padding: 20px;
+            }
+        }
+    </style>
+</head>
+<body>
+    
+    <div class="worksheet-container">
+        <div class="header">
+            <h1 class="emoji">🗡️</h1>
+            <h1 class="main-title">りくの冒険記録</h1>
+            <h1 class="emoji">⛏️</h1>
+        </div>
+        
+        <div class="content">            
+            <div class="date-section">
+                <div class="date-label">　 What’s today’s date?</div>
+                <input type="text" class="date-input" placeholder="例：2025年1月15日" />
+            </div>
+            
+            <div class="goals-section">
+                <h2 class="goals-title">🎯 今日の授業でやりたいこと</h2>
+                <textarea class="goals-textarea" placeholder="今日の授業で頑張りたいことや、やってみたいことを書いてみよう！
+                
+        例：
+        ・地図に目印マークをつけたい
+        ・タッチタイピングが上手になりたい
+        ・コマンドや機能の実験をしたい
+                
+何でも自由に書いてね！"></textarea>
+            </div>
+            
+            
+            
+            <div class="encouragement">
+                ✨ さあ、冒険に出かけよう！今日の目標を達成しよう！ ✨
+            </div>
+        </div>
+    </div>
+    <div class="button-container">
+        <button class="print-button" onclick="window.print()">🖨️ 印刷する</button>
+        <button class="print-button" onclick="saveData()">📝 保存する</button>
+    </div>
+
+    
+    <script>
+        // 日付を自動で今日の日付に設定
+        document.addEventListener('DOMContentLoaded', function() {
+            const dateInput = document.querySelector('.date-input');
+            const today = new Date();
+            const year = today.getFullYear();
+            const month = today.getMonth() + 1;
+            const day = today.getDate();
+            dateInput.value = `${year}年${month}月${day}日`;
+        });
+        
+        // テキストエリアの自動リサイズ
+        const textarea = document.querySelector('.goals-textarea');
+        textarea.addEventListener('input', function() {
+            this.style.height = 'auto';
+            this.style.height = Math.max(200, this.scrollHeight) + 'px';
+        });
+    </script>
+</body>
+<script type="module">
+  import { initializeApp } from "https://www.gstatic.com/firebasejs/12.0.0/firebase-app.js";
+  import { getAnalytics } from "https://www.gstatic.com/firebasejs/12.0.0/firebase-analytics.js";
+  import { getFirestore, collection, addDoc, serverTimestamp } from "https://www.gstatic.com/firebasejs/12.0.0/firebase-firestore.js";
+
+  const firebaseConfig = {
+    apiKey: "AIzaSyBKZLKGZdEoiZQPQfOV7kipJF4xSw0-kGM",
+    authDomain: "class-mission-log.firebaseapp.com",
+    projectId: "class-mission-log",
+    storageBucket: "class-mission-log.firebasestorage.app",
+    messagingSenderId: "443592962861",
+    appId: "1:443592962861:web:006ef340ab629aef5ed9a4",
+    measurementId: "G-KS1LVKFBL1"
+  };
+
+  const app = initializeApp(firebaseConfig);
+  const analytics = getAnalytics(app);
+  const db = getFirestore(app);
+
+  // 🔑 グローバルに関数を登録
+  window.saveData = async function () {
+    const date = document.querySelector('.date-input').value;
+    const content = document.querySelector('.goals-textarea').value;
+
+    try {
+      await addDoc(collection(db, "goals"), {
+        date: date,
+        content: content,
+        timestamp: serverTimestamp()
+      });
+      alert("保存完了！");
+    } catch (e) {
+      alert("保存失敗: " + e.message);
+    }
+  };
+</script>
+</html>
+
